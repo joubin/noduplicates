@@ -5,7 +5,7 @@
             "128": "logo.png" },
   "name": "No Duplicates",
   "description": "This extension will allow you to close duplicates of the same page",
-  "version": "0.25",
+  "version": "0.30",
   "browser_action": {
    "default_icon": "logo.png",
    "default_popup": "options.html"

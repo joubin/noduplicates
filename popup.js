@@ -2,23 +2,30 @@ function createHooks() {
     ids = new Set();
     thistab = 0;
     chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-        chrome.storage.sync.get("ignoreList", function(value) {
-            tabduplicate(value["ignoreList"], tabId, changeInfo, tab)
+        chrome.storage.sync.get(null, function(value) {
+            tabduplicate(value["ignoreList"], value["strictList"], tabId, changeInfo, tab)
 
         })
     });
 }
 
-function tabduplicate(ignorelist = [], tabId, changeInfo, tab) {
+function tabduplicate(ignorelist = [], strictList = [], tabId, changeInfo, tab) {
 
     thistab = tabId
     if (changeInfo.status == 'complete' && tab.active) {
         chrome.tabs.query({}, function test(test) {
             for (variable of test) {
+              if ((!(tabId == variable.id) && !(tab.url == "chrome://newtab/"))) {
 
-                if (tab.url == variable.url && !(tabId == variable.id) && !(tab.url == "chrome://newtab/") && isDomainInDomains(tab.url, ignorelist)) {
+
+
+                if ((tab.url === variable.url && isDomainInDomains(tab.url, ignorelist))) {
+                    ids.add(variable.id)
+                }else if ( isDomainInDomains(tab.url, strictList) == 0 && (getDomain(tab.url) == getDomain(variable.url)))  {
+                  console.log("asdasdasd");
                     ids.add(variable.id)
                 }
+              }
             }
         });
         setTimeout(function() {
