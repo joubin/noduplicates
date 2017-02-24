@@ -18,11 +18,8 @@ function tabduplicate(ignorelist = [], strictList = [], tabId, changeInfo, tab) 
               if ((!(tabId == variable.id) && !(tab.url == "chrome://newtab/"))) {
 
 
-
-                if ((tab.url === variable.url && isDomainInDomains(tab.url, ignorelist))) {
-                    ids.add(variable.id)
-                }else if ( isDomainInDomains(tab.url, strictList) == 0 && (getDomain(tab.url) == getDomain(variable.url)))  {
-                  console.log("asdasdasd");
+                if ((tab.url === variable.url && isDomainInDomains(tab.url, ignorelist))
+                || (isDomainInDomains(tab.url, strictList) == 0 && (getDomain(tab.url) == getDomain(variable.url)))  ) {
                     ids.add(variable.id)
                 }
               }
@@ -38,7 +35,7 @@ function tabduplicate(ignorelist = [], strictList = [], tabId, changeInfo, tab) 
                     iconUrl: 'logo.png',
                     title: "Duplicate",
                     message: "It looks like you have " + tab.url + " open " + myids.size + " times",
-                    contextMessage: "It's about time...",
+                    contextMessage: "",
                     buttons: [{
                         title: "Close this and go to the other one",
                         iconUrl: 'leave.png',
